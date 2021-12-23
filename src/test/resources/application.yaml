@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: testcontainers-demo
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      use-new-id-generator-mappings: false
+    open-in-view: false
+    mapping-resources:
+    generate-ddl: false
+    show-sql: true
