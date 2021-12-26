@@ -1,6 +1,9 @@
 package com.ndgndg91.testcontainers.product;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductVariant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +22,21 @@ public class ProductVariant {
     private BigDecimal price;
 
     @Convert(converter = OptionValueConverter.class)
-    @Column(name = "option_value", columnDefinition = "json")
+    @Column(name = "option_values", columnDefinition = "json")
     private final List<String> optionValues = new ArrayList<>();
 
-    @OneToOne
+    @Setter
+    @OneToOne(mappedBy = "productVariant", cascade = CascadeType.ALL)
     private ProductInventory inventory;
 
+    @Setter
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
+
+    public ProductVariant(final String sku, final BigDecimal price, final List<String> optionValues) {
+        this.sku = sku;
+        this.price = price;
+        this.optionValues.addAll(optionValues);
+    }
 }

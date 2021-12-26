@@ -16,3 +16,7 @@ spring:
     mapping-resources:
     generate-ddl: true
     show-sql: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
